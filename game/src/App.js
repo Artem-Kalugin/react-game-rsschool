@@ -8,7 +8,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   
   const watchLoading = () => {
-    Promise.all(Hero.checker).then(() => {
+    Promise.all([...Hero.checker, ...Forest.checker]).then(() => {
       console.log(Hero);
       // console.log(Forest);
       setIsLoaded(true);

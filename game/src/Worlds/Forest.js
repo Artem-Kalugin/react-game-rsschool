@@ -7,6 +7,11 @@ import Bg3 from '../assets/World/Background3.png';
 const World = {
   assets: [], 
   checker: [],
+  groundVarietyRare: [1, 9],
+  groundSurfaceUsuall: [4, 6, 13, 11],
+  
+  groundSize:32,
+  groundSizeMultiplier: 0.75,
   loadAssets() {
     const names = {
       'sky': Sky,
