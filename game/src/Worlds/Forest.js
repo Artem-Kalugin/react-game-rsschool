@@ -9,8 +9,7 @@ const World = {
   checker: [],
   groundVarietyRare: [1, 9],
   groundSurfaceUsuall: [4, 6, 13, 11],
-  
-  groundSize:32,
+  groundSize:64,
   groundSizeMultiplier: 0.75,
   loadAssets() {
     const names = {

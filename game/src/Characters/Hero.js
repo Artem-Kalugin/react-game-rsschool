@@ -6,6 +6,7 @@ import Attack3 from '../assets/Hero/Attack3.png';
 import Fall from '../assets/Hero/Fall.png';
 import Jump from '../assets/Hero/Jump.png';
 import TakeHit from '../assets/Hero/Take hit.png';
+import death from '../assets/Hero/Death.png';
 
 const Hero = {
   animations: [], 
@@ -21,6 +22,7 @@ const Hero = {
       'fall':Fall,
       'jump':Jump,
       'takeHit':TakeHit,
+      'death':death,
     };
     for (const [key, value] of Object.entries(names)){
       const check = new Promise((resolve, reject) => {
