@@ -1,49 +1,59 @@
 import React, { useEffect, useState, useRef } from "react";
-import Hero from "../Characters/Hero";
-import Forest from "../Worlds/Forest";
+import HeroAssets from "../assets/Hero/Hero";
+import Hero from "./Characters/Hero";
+import Forest from "../assets/World/Forest";
+import Config from "../Config/Config";
 
 function Game() {
   const canvas = useRef(null);
 
   const [gameState, setGameState] = useState({
-    yAxisGround: 0.755,
-    displaySize: 1.5,
+    yAxisGround: Config.world.yAxisGround,
+    displaySize: Config.world.displaySize,
     groundLength: 800 / (Forest.groundSize * Forest.groundSizeMultiplier),
   });
   const [enemies, setEnemies] = useState([]);
   const [hero, setHero] = useState({
-    x: 0.2,
-    yOffset: -0.03,
-    yBase: -0.03,
-    size: 1.3,
+    x: Config.hero.position.xBase,
+    yOffset: Config.hero.position.yBase,
+    yBase: Config.hero.position.yBase,
+    size: Config.hero.size,
     jumpSpeed: 0,
-    radius: 20,
     isDied: false,
     animationStep: 0,
-    tileSize: Hero.tileSize,
-    currentAnimation: Hero.animations.idle,
+    tileSize: HeroAssets.tileSize,
+    currentAnimation: HeroAssets.animations.idle,
+    rightSpeed: 0,
+    leftSpeed: 0,
+    reversed: false,
+    action: null,
+    waitForKeypress: true,
   });
+  const [SecondHero, setSecondHero] = useState({
+    x: Config.hero.position.xBase * 1.5,
+    yOffset: Config.hero.position.yBase,
+    yBase: Config.hero.position.yBase,
+    size: Config.hero.size,
+    jumpSpeed: 0,
+    isDied: false,
+    animationStep: 0,
+    tileSize: HeroAssets.tileSize,
+    currentAnimation: HeroAssets.animations.idle,
+    rightSpeed: 0,
+    leftSpeed: 0,
+    reversed: true,
+    action: null,
+    waitForKeypress: true,
+  });
+  const mainHero2 = new Hero(SecondHero, setSecondHero);
+  const mainHero = new Hero(hero, setHero);
+  const characters = [];
+  characters.push(mainHero, mainHero2);
   const [ground, setGround] = useState();
 
   const drawCharacters = (ctx) => {
-    Object.values([hero, ...enemies].filter((el) => !el.isDied)).forEach(
-      (el) => {
-        if (el) {
-          ctx.drawImage(
-            el.currentAnimation,
-            (el.animationStep * el.tileSize) % el.currentAnimation.width,
-            0,
-            el.tileSize,
-            el.tileSize,
-            el.x * canvas.current.width - el.tileSize,
-            (gameState.yAxisGround + hero.yOffset) * canvas.current.height -
-              el.tileSize,
-            el.tileSize * gameState.displaySize * el.size,
-            el.tileSize * gameState.displaySize * el.size
-          );
-        }
-      }
-    );
+    mainHero2.draw(ctx, canvas);
+    mainHero.draw(ctx, canvas);
   };
 
   const drawWorld = (ctx) => {
@@ -55,7 +65,7 @@ function Game() {
       canvas.current.height
     );
     ctx.drawImage(
-      Forest.assets.bg1,
+      Forest.assets.bg2,
       0.5 * canvas.current.width,
       0.5 * canvas.current.height,
       Forest.assets.bg1.width * 1.1 * gameState.displaySize,
@@ -106,62 +116,22 @@ function Game() {
   };
 
   const updateCharacters = () => {
-    const newHeroState = hero;
-    newHeroState.animationStep++;
-    setHero(newHeroState);
+    characters.forEach((el) => {
+      el.updateAnimation();
+    });
   };
 
   const updatePositions = () => {
-    const newHeroState = hero;
-    newHeroState.currentAnimation = Hero.animations.idle;
-    newHeroState.yOffset = hero.yOffset - newHeroState.jumpSpeed * 0.01;
-    if (hero.yOffset > hero.yBase) {
-      newHeroState.yOffset = hero.yBase;
-      newHeroState.jumpSpeed = 0;
-      newHeroState.currentAnimation = Hero.animations.idle;
-    }
-    if (hero.jumpSpeed !== 0) {
-      newHeroState.jumpSpeed -= 0.09;
-    }
-    if (hero.jumpSpeed < 0) {
-      newHeroState.currentAnimation = Hero.animations.fall;
-    } else if (hero.jumpSpeed > 0) {
-      newHeroState.currentAnimation = Hero.animations.jump;
-    }
-    setHero(newHeroState);
-  };
-
-  useEffect(() => {
-    console.log("update");
-    console.log(hero);
-  });
-
-  const heroJump = () => {
-    const newHeroState = hero;
-    if (hero.jumpSpeed === 0) {
-      newHeroState.jumpSpeed = 3;
-      newHeroState.currentAnimation = Hero.animations.jump;
-    }
-    setHero(newHeroState);
-  };
-
-  const heroFall = () => {
-    const newHeroState = hero;
-    if (hero.jumpSpeed > 0) {
-      newHeroState.jumpSpeed = hero.jumpSpeed / 2.2;
-      newHeroState.currentAnimation = Hero.animations.jump;
-    }
-    setHero(newHeroState);
+    characters.forEach((el) => {
+      el.updatePosition();
+    });
   };
 
   useEffect(() => {
     console.log("render");
-    document.addEventListener("keydown", (e) => {
-      if (e.keyCode === 32) heroJump();
-    });
-    document.addEventListener("keyup", (e) => {
-      if (e.keyCode === 32) heroFall();
-    });
+    const ctx = canvas.current.getContext("2d");
+    mainHero.handleEvents();
+    // mainHero2.handleEvents();
     setInterval(() => {
       updateCharacters();
     }, 1000 / 20);
@@ -171,7 +141,7 @@ function Game() {
   }, [gameState]);
 
   return (
-    <canvas ref={canvas} id="game__board" width="1200" height="600"></canvas>
+    <canvas ref={canvas} id="game__board" width="1000" height="500"></canvas>
   );
 }
 

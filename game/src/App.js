@@ -1,8 +1,8 @@
 import './App.css';
 import { useEffect, useState } from 'react';
 import Game from './Game/Game.jsx'
-import Hero from './Characters/Hero';
-import Forest from './Worlds/Forest';
+import Hero from './assets/Hero/Hero';
+import Forest from './assets/World/Forest';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);

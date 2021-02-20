@@ -1,8 +1,8 @@
-import Sky from '../assets/World/Sky.png';
-import Ground  from '../assets/World/Ground.png';
-import Bg1 from '../assets/World/Background1.png';
-import Bg2 from '../assets/World/Background2.png';
-import Bg3 from '../assets/World/Background3.png';
+import Sky from './Sky.png';
+import Ground  from './Ground.png';
+import Bg1 from './Background1.png';
+import Bg2 from './Background2.png';
+import Bg3 from './Background3.png';
 
 const World = {
   assets: [], 
