@@ -82,9 +82,6 @@ export default class OffscreenRenderer{
   }
 
   reallyDraw(ctx) {
-    console.log(
-      Math.floor((this.state.currTranslation + this.state.translationOffset + (this.state.realGroundSize * Config.canvas.offsetTiles)) / (Config.background.translationReductionMultiplier * this.state.translationSpeedReduction))
-    );
     ctx.drawImage(
       this.state.displayElement,
       Math.floor((this.state.currTranslation + this.state.translationOffset + (this.state.realGroundSize * Config.canvas.offsetTiles)) / (Config.background.translationReductionMultiplier * this.state.translationSpeedReduction)),

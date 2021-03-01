@@ -32,6 +32,7 @@ export default class OffscreenRenderer{
   } 
 
   setTranslation(translateSpeed, lockMap){
+    this.state.translationPx = 0;
     if (translateSpeed) {
       const newState = this.state;
       let translationPx = translateSpeed * (Config.canvas.width / 180 );
@@ -41,6 +42,7 @@ export default class OffscreenRenderer{
         && translationPx > 0) || ((newState.currTranslation < 0 && translationPx < 0))) {
           newState.mapEnded = true;
         } else {
+          this.state.translationPx = translationPx;
           this.changeTranslation(translationPx);
         }
       } else {
@@ -53,6 +55,7 @@ export default class OffscreenRenderer{
         } else if (newState.currTranslation < -(Config.canvas.distGroundSize * 1) && translationPx < 0) {
           newState.mapEnded = true;
         } else {
+          this.state.translationPx = translationPx;
           this.changeTranslation(translationPx);
         }
       }
