@@ -233,7 +233,7 @@ export default class Skeleton{
       target = 'takeHit';
     } else if (this.state.gameOptions.action === 'attack') {
       target = 'attack';
-    } else if (this.state.speed.right || this.state.speed.left && (
+    } else if ((this.state.speed.right || this.state.speed.left) && (
       this.state.speed.right !== this.state.speed.left
     )) {
       target = 'steps';

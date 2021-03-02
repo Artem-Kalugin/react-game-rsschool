@@ -17,6 +17,8 @@ import houndAttack from './Hound/attack.mp3';
 import houndTakeHit from './Hound/takeHit.mp3';
 import houndJump from './Hound/jump.mp3';
 import houndSteps from './Hound/steps.mp3';
+import Track1 from './Music/track1.mp3';
+import Track2 from './Music/track2.mp3';
 
 const SoundEngine = {
   hero: {
@@ -47,6 +49,11 @@ const SoundEngine = {
     attack: {src: null, vol: 0.7},
     jump: {src: null, vol: 0.7},
   },
+  music: {
+    track1: {src: null, vol: 0.3},
+    track2: {src: null, vol: 0.7},
+  },
+  isMusicPlaying: false,
   checker: [],
   loadSounds() {
     const hero = 
@@ -81,10 +88,15 @@ const SoundEngine = {
       attack: houndAttack,
       jump: houndJump,
     } 
+    const music = {
+      track1: Track1,
+      track2: Track2,
+    }
     this.loadOneInstance(hero, 'hero');
     this.loadOneInstance(hound, 'hound');
     this.loadOneInstance(skeleton, 'skeleton');
     this.loadOneInstance(demon, 'demon');
+    this.loadOneInstance(music, 'music');
   },
 
   loadOneInstance(args, name) {
@@ -94,7 +106,7 @@ const SoundEngine = {
           const response = await fetch(value);
           const arrayBuffer = await response.arrayBuffer();
           const audioBuffer = await this.audioCtx.decodeAudioData(arrayBuffer);
-          this.[name][key].src = audioBuffer;
+          this[name][key].src = audioBuffer;
           resolve('done');
         } catch(e) {
           reject(e);
@@ -107,6 +119,28 @@ const SoundEngine = {
   initialize() {
     const AudioContext = window.AudioContext || window.webkitAudioContext;
     this.audioCtx = new AudioContext();  
+    this.musicCtx = new AudioContext();
+    this.musicGainNode = this.musicCtx.createGain();
+  },
+
+  changeMusicGain(val) {
+    this.musicGainNode.gain.value = 0.2;
+  },
+
+  playMusic() {
+    if (!this.isMusicPlaying  && this.musicCtx.state !== 'suspended') {
+      console.log()
+      this.isMusicPlaying = true;
+      const trackSource = this.musicCtx.createBufferSource();
+      trackSource.connect(this.musicGainNode);
+      this.musicGainNode.connect(this.musicCtx.destination);
+      const source = this.music[`track${Math.round(Math.random()) + 1}`].src;
+      trackSource.buffer = source;
+      trackSource.start();
+      setTimeout(() => {
+        this.isMusicPlaying = false;
+      }, source.duration * 1000);
+    }
   },
 
   play(target, x) {
@@ -131,11 +165,7 @@ const SoundEngine = {
     } else {
       gainNode.connect(this.audioCtx.destination);
     }
-    
     trackSource.buffer = target.src;
-    // if (pannerNode) {
-    //   trackSource.connect(pannerNode);
-    // }
     trackSource.start(); 
   }
 }

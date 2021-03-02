@@ -180,7 +180,7 @@ export default class Demon{
   }
 
   takeHit(hero) {
-    if (this.state.gameOptions.action != 'takeHit') {
+    if (this.state.gameOptions.action !== 'takeHit') {
       this.soundsState.takeHit.isLocked = false;
       this.state.gameOptions.action = 'takeHit';
       !hero.animations.reversed? this.state.speed.right = 0.007 : this.state.speed.left = 0.007;
@@ -209,7 +209,7 @@ export default class Demon{
     if (this.state.gameOptions.action === 'attack') {
       target = 'attack';
     } 
-    if (this.state.speed.right || this.state.speed.left && (
+    if ((this.state.speed.right || this.state.speed.left) && (
       this.state.speed.right !== this.state.speed.left
     )) {
       target = 'steps';

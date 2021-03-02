@@ -8,9 +8,11 @@ import SkyRenderer from "./SkyRenderer/SkyRenderer";
 import Demon from "./Characters/Demon";
 import Hound from "./Characters/Hound";
 import Skeleton from "./Characters/Skeleton";
+import { useHistory } from "react-router-dom";
 
-function Game() {
+function Game(props) {
   const canvas = useRef(null);
+  let history = useHistory();
 
   // const [gameState, setGameState] = useState({
   //   yAxisGround: Config.world.yAxisGround,
@@ -327,7 +329,7 @@ function Game() {
   };
 
   useEffect(() => {
-    console.log("render");
+    // console.log("render");
     groundRenderer.width = canvas.current.width;
     groundRenderer.height = canvas.current.height;
     mainHero.handleEvents();
@@ -344,12 +346,16 @@ function Game() {
     // setTimeout(() => {
     //   setHeroMapLock(false);
     // }, 7500);
-    setInterval(() => {
+    let charInterval = setInterval(() => {
       updateCharacters();
     }, 1000 / 20);
-    setInterval(() => {
+    let drawInterval = setInterval(() => {
       draw();
     }, 1000 / 60);
+    return function cleanup() {
+      clearInterval(charInterval);
+      clearInterval(drawInterval);
+    };
   }, []);
 
   return (

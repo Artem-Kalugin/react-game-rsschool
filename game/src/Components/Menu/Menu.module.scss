@@ -1,0 +1,39 @@
+.menu__link {
+  color: white;
+  margin: 15px 0;
+  background: url(../../assets/Ui/texture.png);
+  background-size: 50px;
+  width: 300px;
+  height: 40px;
+  border-radius: 8px;
+  vertical-align: middle;
+  display: flex;
+  align-items: center;
+  transform: none;
+  box-shadow: none;
+  transition: 0.3s all ease;
+  &:hover {
+    transform: scaleX(1.02);
+    box-shadow: 2px 2px 0px black;
+  }
+}
+
+.menu__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu {
+  list-style: none;
+  text-align: center;
+}
+
+.NavLink {
+  position: relative;
+  top: -1px;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: white;
+}
