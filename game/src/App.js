@@ -9,7 +9,7 @@ import Skeleton from './assets/Skeleton/skeleton';
 import UI from './assets/Ui/UI';
 import SoundEngine from './Game/SoundEngine/SoundEngine';
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route,
   NavLink, 
