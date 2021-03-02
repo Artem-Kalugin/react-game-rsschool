@@ -9,7 +9,7 @@ const Demon = {
   animations: {
     attack: {src: null, reversed: null, tileSizeX: 150, tileSizeY: 150, centerXOffset: -40, centerYOffset: -20},
     run: {src: null, reversed: null, tileSizeX: 150, tileSizeY: 150, centerXOffset: -40, centerYOffset: -20},
-    death: {src: null, reversed: null, tileSizeX: 160, tileSizeY: 160, centerXOffset: -40, centerYOffset: 10}
+    death: {src: null, reversed: null, tileSizeX: 120, tileSizeY: 120, centerXOffset: -40, centerYOffset: 10}
   }, 
   checker: [],
   loadAnimations() {

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
 import classes from "./Menu.module.scss";
+import localStorageWorker from "../../util/localStorageWorker";
 
 function MenuLink(props) {
   return (
-    <li className={classes.menu__link}>
+    <li className={`textured + ${classes.menu__link}`}>
       <NavLink className={classes.NavLink} to={props.link}>
         {props.text}
       </NavLink>
@@ -15,7 +16,9 @@ function Menu() {
   return (
     <div className={classes.menu__wrapper}>
       <ul className={classes.menu}>
-        <MenuLink link="/continue" text="Continue"></MenuLink>
+        {localStorageWorker.read("save") && (
+          <MenuLink link="/continue" text="Continue"></MenuLink>
+        )}
         <MenuLink link="/game" text="New Game"></MenuLink>
         <MenuLink link="/demo" text="Demo"></MenuLink>
         <MenuLink link="/" text="Shop"></MenuLink>

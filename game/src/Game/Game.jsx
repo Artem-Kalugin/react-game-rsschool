@@ -9,10 +9,12 @@ import Demon from "./Characters/Demon";
 import Hound from "./Characters/Hound";
 import Skeleton from "./Characters/Skeleton";
 import { useHistory } from "react-router-dom";
+import localStorageWorker from "../util/localStorageWorker";
 
 function Game(props) {
   const canvas = useRef(null);
   let history = useHistory();
+  let isDied = false;
 
   // const [gameState, setGameState] = useState({
   //   yAxisGround: Config.world.yAxisGround,
@@ -82,7 +84,7 @@ function Game(props) {
     previousEnemiesDistanceSpawn: 0,
   });
   let [enemies, setEnemies] = useState([]);
-  const [hero, setHero] = useState({
+  let [hero, setHero] = useState({
     positions: {
       x: Config.hero.position.xBase,
       yOffset: Config.hero.position.yBase,
@@ -203,6 +205,9 @@ function Game(props) {
   };
 
   const drawInterface = (ctx) => {
+    ctx.fillStyle = "rgb(180, 50, 50)";
+    ctx.font = "90px serif";
+    isDied && ctx.fillText(`You Died`, 330, 250);
     ctx.fillStyle = "white";
     ctx.font = "18px serif";
     ctx.fillText(
@@ -247,11 +252,12 @@ function Game(props) {
   };
 
   const spawnEnemies = () => {
-    console.log("spawning enemies");
     const difficulty =
-      gameState.currentDistance /
-        (Config.difficulty.maxEnemies * Config.difficulty.distancePerEnemy) +
-      1;
+      Math.sqrt(
+        gameState.currentDistance /
+          (Config.difficulty.maxEnemies * Config.difficulty.distancePerEnemy) +
+          1
+      ) * localStorageWorker.read("options").difficulty;
     let amount =
       (gameState.currentDistance %
         (Config.difficulty.maxEnemies * Config.difficulty.distancePerEnemy)) /
@@ -280,22 +286,15 @@ function Game(props) {
 
   const checkDistance = () => {
     let newGameState = gameState;
-    console.log("checking distance");
-    console.log();
     if (
       newGameState.currentDistance - newGameState.previousEnemiesDistanceSpawn >
       Config.difficulty.distancePerEnemy +
         Config.difficulty.distancePerEnemy * Math.random()
     ) {
-      console.log("distance for enemy");
-      console.log(enemies.length === 0);
       newGameState.previousEnemiesDistanceSpawn = newGameState.currentDistance;
       setGameState(newGameState);
       if (Math.random() > 0.6) {
-        console.log("distance has returned true");
         return true;
-      } else {
-        console.log("distance has returned false");
       }
     }
     return false;
@@ -313,6 +312,24 @@ function Game(props) {
     setGameState(newGameState);
   };
 
+  const checkDie = () => {
+    if (hero.gameOptions.action === "die" && !isDied) {
+      isDied = true;
+      let records = localStorageWorker.read("records") || [];
+      records.unshift({
+        name: localStorageWorker.read("options").name,
+        distance: gameState.currentDistance,
+        money: gameState.money,
+      });
+      if (records.length > 10) records.length = 10;
+      localStorageWorker.write("records", records);
+      setTimeout(() => {
+        localStorageWorker.delete("save");
+        history.push("/");
+      }, 3000);
+    }
+  };
+
   const countGround = () => {
     const newGameState = gameState;
     if (groundState.translationPx > 0 && hero.positions.lockMap !== true) {
@@ -328,8 +345,25 @@ function Game(props) {
     setGameState(newGameState);
   };
 
+  const resize = () => {
+    canvas.current.style.width = window.innerWidth;
+  };
+
+  const save = () => {
+    const save = {
+      heroHealth: hero.characteristics.health,
+      gameState: gameState,
+    };
+    localStorageWorker.write("save", save);
+  };
+
+  const load = () => {
+    const save = localStorageWorker.read("save");
+    hero.characteristics.health = save.heroHealth;
+    gameState = save.gameState;
+  };
+
   useEffect(() => {
-    // console.log("render");
     groundRenderer.width = canvas.current.width;
     groundRenderer.height = canvas.current.height;
     mainHero.handleEvents();
@@ -337,24 +371,40 @@ function Game(props) {
     groundRenderer.getContext();
     groundRenderer.generate(200);
     groundRenderer.draw();
+    resize();
     generateTreeLayers();
-    enemies.push(new Skeleton(1, giveReward));
-    // mainHero2.handleEvents();
-    // setTimeout(() => {
-    //   setHeroMapLock(true);
-    // }, 1000);
-    // setTimeout(() => {
-    //   setHeroMapLock(false);
-    // }, 7500);
+    const goToHome = (e) => {
+      let options =
+        localStorageWorker.read("options") ||
+        localStorageWorker.generateOptions();
+      console.log(e.keyCode, options.menu);
+      if (e.keyCode === options.menu) {
+        history.push("/");
+      }
+    };
+    if (props.type === "new") {
+      localStorageWorker.delete("save");
+    }
+    if (props.type === "continue") {
+      load();
+    }
+    document.addEventListener("keydown", goToHome);
     let charInterval = setInterval(() => {
       updateCharacters();
+      checkDie();
     }, 1000 / 20);
+    let saveInterval = setInterval(() => {
+      console.log("save");
+      save();
+    }, localStorageWorker.read("options").saveInterval * 1000);
     let drawInterval = setInterval(() => {
       draw();
     }, 1000 / 60);
     return function cleanup() {
       clearInterval(charInterval);
       clearInterval(drawInterval);
+      clearInterval(saveInterval);
+      document.removeEventListener("keydown", goToHome);
     };
   }, []);
 
@@ -364,6 +414,7 @@ function Game(props) {
       id="game__board"
       width={Config.canvas.width}
       height={Config.canvas.height}
+      className="full-width"
     ></canvas>
   );
 }

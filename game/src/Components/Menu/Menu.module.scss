@@ -1,8 +1,6 @@
 .menu__link {
   color: white;
   margin: 15px 0;
-  background: url(../../assets/Ui/texture.png);
-  background-size: 50px;
   width: 300px;
   height: 40px;
   border-radius: 8px;
@@ -19,6 +17,7 @@
 }
 
 .menu__wrapper {
+  margin-bottom: 10%;
   display: flex;
   justify-content: center;
   align-items: center;

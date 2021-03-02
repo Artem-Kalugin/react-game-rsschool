@@ -19,6 +19,7 @@ import houndJump from './Hound/jump.mp3';
 import houndSteps from './Hound/steps.mp3';
 import Track1 from './Music/track1.mp3';
 import Track2 from './Music/track2.mp3';
+import localStorageWorker from '../../util/localStorageWorker';
 
 const SoundEngine = {
   hero: {
@@ -124,7 +125,7 @@ const SoundEngine = {
   },
 
   changeMusicGain(val) {
-    this.musicGainNode.gain.value = 0.2;
+    this.musicGainNode.gain.value = val;
   },
 
   playMusic() {
@@ -140,6 +141,8 @@ const SoundEngine = {
       setTimeout(() => {
         this.isMusicPlaying = false;
       }, source.duration * 1000);
+    } else {
+      this.musicCtx.resume();
     }
   },
 
@@ -158,7 +161,7 @@ const SoundEngine = {
     }
     const gainNode = this.audioCtx.createGain();
     const trackSource = this.audioCtx.createBufferSource();
-    gainNode.gain.value = target.vol;
+    gainNode.gain.value = target.vol * localStorageWorker.read("options").soundEffectsGain;
     trackSource.connect(gainNode);
     if (pannerNode) {
       gainNode.connect(pannerNode);

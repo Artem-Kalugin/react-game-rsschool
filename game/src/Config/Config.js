@@ -91,9 +91,9 @@ const Config = {
     translationReductionMultiplier: 15,
   },
   difficulty: {
-    maxEnemies: 5,
+    maxEnemies: 8,
     distancePerEnemy: 10,
-    enemiesRandomizator: 4,
+    enemiesRandomizator: 7,
   }
 }
 

@@ -12,20 +12,26 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  NavLink
+  NavLink, 
+  useHistory
 } from "react-router-dom";
 import Menu from './Components/Menu/Menu';
 import Logo from './Components/Logo/Logo';
+import localStorageWorker from './util/localStorageWorker';
+import Settings from './Components/Settings/Settings';
+import Leaderboards from './Components/Leaderboards/Leaderboards';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   let musicPlayingInterval = null;
+  let history = useHistory();
   
   const watchLoading = () => {
     Promise.all([...Hero.checker, ...Forest.checker, ...Demon.checker, ...UI.checker, ...Hound.checker, ...Skeleton.checker, ...SoundEngine.checker]).then(() => {
       console.log(SoundEngine);
       setIsLoaded(true);
       SoundEngine.playMusic();
+      
       musicPlayingInterval = setInterval(() => {
         SoundEngine.playMusic();
       }, 5000)
@@ -46,6 +52,8 @@ function App() {
 
   useEffect(() => {
     loadAssets();
+    let options = localStorageWorker.read('options') || localStorageWorker.generateOptions();
+    SoundEngine.changeMusicGain(options.musicGain);
     return function cleanup() {
       if (musicPlayingInterval) {
         clearInterval(musicPlayingInterval);
@@ -60,10 +68,28 @@ function App() {
           <Logo />
           <Menu />
         </Route>
-        <Route path="/game">
-          <div>
-            {isLoaded &&  <Game/>};
+        <Route path="/continue">
+          <div className="game__wrapper">
+            {isLoaded &&  <Game type='continue'/>}
           </div>
+        </Route>
+        <Route path="/game">
+          <div className="game__wrapper">
+            {isLoaded &&  <Game type='new'/>}
+          </div>
+        </Route>
+        <Route path="/demo">
+          <div className="game__wrapper">
+            {isLoaded &&  <Game type='auto'/>}
+          </div>
+        </Route>
+        <Route path="/settings">
+          <Logo />
+          <Settings />
+        </Route>
+        <Route path="/leaderboards">
+          <Logo />
+          <Leaderboards />
         </Route>
       </Switch>
     </Router>
