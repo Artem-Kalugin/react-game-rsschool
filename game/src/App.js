@@ -22,6 +22,8 @@ import Settings from './Components/Settings/Settings';
 import Leaderboards from './Components/Leaderboards/Leaderboards';
 import Background from './Components/Background/Background';
 import Footer from './Components/Footer/Footer';
+import Loader from './Components/Loader/Loader';
+
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -75,16 +77,19 @@ function App() {
         <Route path="/continue">
           <div className="game__wrapper">
             {isLoaded &&  <Game type='continue'/>}
+            {!isLoaded && <Loader/>}
           </div>
         </Route>
         <Route path="/game">
           <div className="game__wrapper">
             {isLoaded &&  <Game type='new'/>}
+            {!isLoaded && <Loader/>}
           </div>
         </Route>
         <Route path="/demo">
           <div className="game__wrapper">
             {isLoaded &&  <Game type='autoplay'/>}
+            {!isLoaded && <Loader/>}
           </div>
         </Route>
         <Route path="/settings">
