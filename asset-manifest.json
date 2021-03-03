@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/react-game-rsschool/static/css/main.d7388bad.chunk.css",
-    "main.js": "/react-game-rsschool/static/js/main.6201cd65.chunk.js",
-    "main.js.map": "/react-game-rsschool/static/js/main.6201cd65.chunk.js.map",
+    "main.js": "/react-game-rsschool/static/js/main.b06214b2.chunk.js",
+    "main.js.map": "/react-game-rsschool/static/js/main.b06214b2.chunk.js.map",
     "runtime-main.js": "/react-game-rsschool/static/js/runtime-main.11f865cf.js",
     "runtime-main.js.map": "/react-game-rsschool/static/js/runtime-main.11f865cf.js.map",
     "static/js/2.ac957c80.chunk.js": "/react-game-rsschool/static/js/2.ac957c80.chunk.js",
@@ -54,6 +54,6 @@
     "static/js/runtime-main.11f865cf.js",
     "static/js/2.ac957c80.chunk.js",
     "static/css/main.d7388bad.chunk.css",
-    "static/js/main.6201cd65.chunk.js"
+    "static/js/main.b06214b2.chunk.js"
   ]
 }
