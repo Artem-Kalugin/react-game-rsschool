@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/react-game-rsschool/static/css/main.e9ad8e8a.chunk.css",
-    "main.js": "/react-game-rsschool/static/js/main.99179b72.chunk.js",
-    "main.js.map": "/react-game-rsschool/static/js/main.99179b72.chunk.js.map",
-    "runtime-main.js": "/react-game-rsschool/static/js/runtime-main.5cd14c74.js",
-    "runtime-main.js.map": "/react-game-rsschool/static/js/runtime-main.5cd14c74.js.map",
-    "static/js/2.2fdfe571.chunk.js": "/react-game-rsschool/static/js/2.2fdfe571.chunk.js",
-    "static/js/2.2fdfe571.chunk.js.map": "/react-game-rsschool/static/js/2.2fdfe571.chunk.js.map",
-    "static/js/3.317c42d8.chunk.js": "/react-game-rsschool/static/js/3.317c42d8.chunk.js",
-    "static/js/3.317c42d8.chunk.js.map": "/react-game-rsschool/static/js/3.317c42d8.chunk.js.map",
+    "main.css": "/react-game-rsschool/static/css/main.26e769db.chunk.css",
+    "main.js": "/react-game-rsschool/static/js/main.febb8fae.chunk.js",
+    "main.js.map": "/react-game-rsschool/static/js/main.febb8fae.chunk.js.map",
+    "runtime-main.js": "/react-game-rsschool/static/js/runtime-main.a669eecc.js",
+    "runtime-main.js.map": "/react-game-rsschool/static/js/runtime-main.a669eecc.js.map",
+    "static/js/2.decb4ea6.chunk.js": "/react-game-rsschool/static/js/2.decb4ea6.chunk.js",
+    "static/js/2.decb4ea6.chunk.js.map": "/react-game-rsschool/static/js/2.decb4ea6.chunk.js.map",
+    "static/js/3.3c1c6711.chunk.js": "/react-game-rsschool/static/js/3.3c1c6711.chunk.js",
+    "static/js/3.3c1c6711.chunk.js.map": "/react-game-rsschool/static/js/3.3c1c6711.chunk.js.map",
     "index.html": "/react-game-rsschool/index.html",
-    "static/css/main.e9ad8e8a.chunk.css.map": "/react-game-rsschool/static/css/main.e9ad8e8a.chunk.css.map",
-    "static/js/2.2fdfe571.chunk.js.LICENSE.txt": "/react-game-rsschool/static/js/2.2fdfe571.chunk.js.LICENSE.txt",
+    "static/css/main.26e769db.chunk.css.map": "/react-game-rsschool/static/css/main.26e769db.chunk.css.map",
+    "static/js/2.decb4ea6.chunk.js.LICENSE.txt": "/react-game-rsschool/static/js/2.decb4ea6.chunk.js.LICENSE.txt",
     "static/media/Attack1rev.451d6668.png": "/react-game-rsschool/static/media/Attack1rev.451d6668.png",
     "static/media/Attack2rev.39d03ecf.png": "/react-game-rsschool/static/media/Attack2rev.39d03ecf.png",
     "static/media/Attack3.77e7b1b2.png": "/react-game-rsschool/static/media/Attack3.77e7b1b2.png",
@@ -33,11 +33,13 @@
     "static/media/demon-attackrev.8588835d.png": "/react-game-rsschool/static/media/demon-attackrev.8588835d.png",
     "static/media/demon-idle.7896b67f.png": "/react-game-rsschool/static/media/demon-idle.7896b67f.png",
     "static/media/demon-idlerev.b06d47d4.png": "/react-game-rsschool/static/media/demon-idlerev.b06d47d4.png",
+    "static/media/github.98349f64.png": "/react-game-rsschool/static/media/github.98349f64.png",
     "static/media/healthbar.dcea9861.png": "/react-game-rsschool/static/media/healthbar.dcea9861.png",
     "static/media/idle.1331ea39.mp3": "/react-game-rsschool/static/media/idle.1331ea39.mp3",
     "static/media/jump.48ecab4c.mp3": "/react-game-rsschool/static/media/jump.48ecab4c.mp3",
     "static/media/jump.e772c16f.mp3": "/react-game-rsschool/static/media/jump.e772c16f.mp3",
     "static/media/logo.3ff1835e.png": "/react-game-rsschool/static/media/logo.3ff1835e.png",
+    "static/media/rs_school_js.080efc85.png": "/react-game-rsschool/static/media/rs_school_js.080efc85.png",
     "static/media/steps.0337f507.mp3": "/react-game-rsschool/static/media/steps.0337f507.mp3",
     "static/media/steps.448e83da.mp3": "/react-game-rsschool/static/media/steps.448e83da.mp3",
     "static/media/steps.83724355.mp3": "/react-game-rsschool/static/media/steps.83724355.mp3",
@@ -49,9 +51,9 @@
     "static/media/track2.40e8c826.mp3": "/react-game-rsschool/static/media/track2.40e8c826.mp3"
   },
   "entrypoints": [
-    "static/js/runtime-main.5cd14c74.js",
-    "static/js/2.2fdfe571.chunk.js",
-    "static/css/main.e9ad8e8a.chunk.css",
-    "static/js/main.99179b72.chunk.js"
+    "static/js/runtime-main.a669eecc.js",
+    "static/js/2.decb4ea6.chunk.js",
+    "static/css/main.26e769db.chunk.css",
+    "static/js/main.febb8fae.chunk.js"
   ]
 }
