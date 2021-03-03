@@ -1,0 +1,19 @@
+.inner__wrapper {
+  display: flex;
+  padding: 20px;
+  flex-direction: column;
+  width: 500px;
+  min-height: 300px;
+  align-items: center;
+  border-radius: 20px;
+  justify-content: space-between;
+}
+
+.grid__container {
+  margin-bottom: auto;
+  display: grid;
+  width: auto;
+  margin-left: 30px;
+  grid-template-columns: 100px 100px 130px 100px;
+  grid-auto-rows: auto;
+}
