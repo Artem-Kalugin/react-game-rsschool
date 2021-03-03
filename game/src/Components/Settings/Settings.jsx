@@ -57,7 +57,11 @@ function Settings() {
           return el.value === e.keyCode - 32;
         }).length === 0
       ) {
-        element.value = e.keyCode - 32;
+        if (e.keyCode === 32) {
+          element.value = e.keyCode;
+        } else {
+          element.value = e.keyCode - 32;
+        }
         element.isActive = false;
         setButtonsState(buttonsState, element);
         setActive(element, false);

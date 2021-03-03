@@ -3,6 +3,7 @@ import HeroAssets from "../../assets/Hero/Hero";
 import UI from '../../assets/Ui/UI';
 import SoundEngine from '../SoundEngine/SoundEngine';
 import copySoundSource from '../../util/copySoundSource';
+import localStorageWorker from '../../util/localStorageWorker';
 
 export default class Hero{
   constructor(state, setState) {
@@ -359,19 +360,20 @@ export default class Hero{
   };
 
   handleEvents() {
+    let options = localStorageWorker.read('options');
     document.addEventListener("keydown", (e) => {
       if (this.state.gameOptions.action !== 'die') {
-        if (e.keyCode === 32) this.Jump();
-        if (e.keyCode === 68) this.Move(1);
-        if (e.keyCode === 65) this.Move(-1);
-        if (e.keyCode === 83) this.Attack();
+        if (e.keyCode === options.jump) this.Jump();
+        if (e.keyCode === options.runRight) this.Move(1);
+        if (e.keyCode === options.runLeft) this.Move(-1);
+        if (e.keyCode === options.attack) this.Attack();
       }
     });
     document.addEventListener("keyup", (e) => {
-      if (e.keyCode === 32) this.Fall();
-      if (e.keyCode === 68) this.Stop(1);
-      if (e.keyCode === 65) this.Stop(-1);
-      if (e.keyCode === 83) this.StopAttack();
+      if (e.keyCode === options.jump) this.Fall();
+      if (e.keyCode === options.runRight) this.Stop(1);
+      if (e.keyCode === options.runLeft) this.Stop(-1);
+      if (e.keyCode === options.attack) this.StopAttack();
     });
   }
 }  

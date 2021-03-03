@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 function KeyboardControl(props) {
   function checkValue() {
-    if (props.el.value === 0) return "Space";
+    if (props.el.value === 32) return "Space";
     else return String.fromCharCode(props.el.value);
   }
 

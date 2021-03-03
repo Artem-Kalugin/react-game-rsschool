@@ -4,8 +4,11 @@ import localStorageWorker from "../../util/localStorageWorker";
 
 function MenuLink(props) {
   return (
-    <li className={`textured + ${classes.menu__link}`}>
-      <NavLink className={classes.NavLink} to={props.link}>
+    <li className={`textured ${classes.menu__link} ${props.className}`}>
+      <NavLink
+        className={`${classes.NavLink} ${props.className}`}
+        to={props.link}
+      >
         {props.text}
       </NavLink>
     </li>
@@ -21,7 +24,7 @@ function Menu() {
         )}
         <MenuLink link="/game" text="New Game"></MenuLink>
         <MenuLink link="/demo" text="Demo"></MenuLink>
-        <MenuLink link="/" text="Shop"></MenuLink>
+        <MenuLink link="/" text="Shop" className={classes.inactive}></MenuLink>
         <MenuLink link="/settings" text="Settings"></MenuLink>
         <MenuLink link="/leaderboards" text="Leaderboards"></MenuLink>
       </ul>

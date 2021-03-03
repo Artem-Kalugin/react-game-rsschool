@@ -10,9 +10,16 @@
   transform: none;
   box-shadow: none;
   transition: 0.3s all ease;
-  &:hover {
+  &:not(.inactive):hover {
     transform: scaleX(1.02);
     box-shadow: 2px 2px 0px black;
+  }
+}
+
+.inactive {
+  opacity: 0.5;
+  &:hover {
+    cursor: not-allowed;
   }
 }
 

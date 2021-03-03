@@ -20,6 +20,8 @@ import Logo from './Components/Logo/Logo';
 import localStorageWorker from './util/localStorageWorker';
 import Settings from './Components/Settings/Settings';
 import Leaderboards from './Components/Leaderboards/Leaderboards';
+import Background from './Components/Background/Background';
+import Footer from './Components/Footer/Footer';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -67,6 +69,8 @@ function App() {
         <Route exact path="/">
           <Logo />
           <Menu />
+          <Background />
+          <Footer />
         </Route>
         <Route path="/continue">
           <div className="game__wrapper">
@@ -86,10 +90,14 @@ function App() {
         <Route path="/settings">
           <Logo />
           <Settings />
+          <Background />
+          <Footer />
         </Route>
         <Route path="/leaderboards">
           <Logo />
           <Leaderboards />
+          <Background />
+          <Footer />
         </Route>
       </Switch>
     </Router>
