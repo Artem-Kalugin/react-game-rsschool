@@ -269,6 +269,8 @@ export default class Hero{
           } else if (Math.abs(this.state.positions.centerY
             - this.currTarget.state.positions.centerY) < 50) {
               this.Fall();
+          } else if (this.state.characteristics.health < 1) {
+            this.die();
           }
         }
       }
