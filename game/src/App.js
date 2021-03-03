@@ -80,7 +80,7 @@ function App() {
         </Route>
         <Route path="/demo">
           <div className="game__wrapper">
-            {isLoaded &&  <Game type='auto'/>}
+            {isLoaded &&  <Game type='autoplay'/>}
           </div>
         </Route>
         <Route path="/settings">

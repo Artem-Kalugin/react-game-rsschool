@@ -215,6 +215,14 @@ function Game(props) {
       canvas.current.width - 120,
       52
     );
+    if (props.type === "autoplay")
+      ctx.fillText(
+        `Press ${String.fromCharCode(
+          localStorageWorker.read("options").menu
+        )} to exit`,
+        canvas.current.width / 2 - 40,
+        460
+      );
     ctx.fillText(`Money: ${gameState.money}`, canvas.current.width - 120, 74);
   };
 
@@ -271,6 +279,9 @@ function Game(props) {
         Config.difficulty.enemiesRandomizator * Math.random()
       );
     }
+    if (props.type === "autoplay") {
+      amount %= 4 + 1;
+    }
     for (let i = 0; i < amount; i++) {
       // eslint-disable-next-line no-loop-func
       setTimeout(() => {
@@ -315,14 +326,16 @@ function Game(props) {
   const checkDie = () => {
     if (hero.gameOptions.action === "die" && !isDied) {
       isDied = true;
-      let records = localStorageWorker.read("records") || [];
-      records.unshift({
-        name: localStorageWorker.read("options").name,
-        distance: gameState.currentDistance,
-        money: gameState.money,
-      });
-      if (records.length > 10) records.length = 10;
-      localStorageWorker.write("records", records);
+      if (props.type !== "autoplay") {
+        let records = localStorageWorker.read("records") || [];
+        records.unshift({
+          name: localStorageWorker.read("options").name,
+          distance: gameState.currentDistance,
+          money: gameState.money,
+        });
+        if (records.length > 10) records.length = 10;
+        localStorageWorker.write("records", records);
+      }
       setTimeout(() => {
         localStorageWorker.delete("save");
         history.push("/");
@@ -366,7 +379,6 @@ function Game(props) {
   useEffect(() => {
     groundRenderer.width = canvas.current.width;
     groundRenderer.height = canvas.current.height;
-    mainHero.handleEvents();
     groundRenderer.setSize();
     groundRenderer.getContext();
     groundRenderer.generate(200);
@@ -385,6 +397,9 @@ function Game(props) {
     if (props.type === "new") {
       localStorageWorker.delete("save");
     }
+    if (props.type === "autoplay") {
+      localStorageWorker.delete("save");
+    }
     if (props.type === "continue") {
       load();
     }
@@ -393,17 +408,26 @@ function Game(props) {
       updateCharacters();
       checkDie();
     }, 1000 / 20);
-    let saveInterval = setInterval(() => {
-      console.log("save");
-      save();
-    }, localStorageWorker.read("options").saveInterval * 1000);
+    let saveInterval = null;
+    let autoplayInterval = null;
+    if (props.type !== "autoplay") {
+      mainHero.handleEvents();
+      saveInterval = setInterval(() => {
+        save();
+      }, localStorageWorker.read("options").saveInterval * 1000);
+    } else {
+      autoplayInterval = setInterval(() => {
+        mainHero.autoplay(enemies);
+      }, 1000 / 60);
+    }
     let drawInterval = setInterval(() => {
       draw();
     }, 1000 / 60);
     return function cleanup() {
       clearInterval(charInterval);
       clearInterval(drawInterval);
-      clearInterval(saveInterval);
+      if (props.type !== "autoplay") clearInterval(saveInterval);
+      else clearInterval(autoplayInterval);
       document.removeEventListener("keydown", goToHome);
     };
   }, []);

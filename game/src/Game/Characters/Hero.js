@@ -11,6 +11,7 @@ export default class Hero{
     this.yAxisGround = Config.world.yAxisGround;
     this.soundsSource = SoundEngine.hero;
     this.soundsState = copySoundSource(SoundEngine.hero);
+    this.currTarget = null;
   }
 
   draw(ctx, canvas){
@@ -54,7 +55,7 @@ export default class Hero{
 
   takeHit(damage, enemiesCenter) {
     const newHeroState = this.state;
-    if (!this.state.gameOptions.invulnerable && damage) {
+    if (!this.state.gameOptions.invulnerable && damage && this.state.gameOptions.action !== 'die') {
       this.soundsState.takeHit.isLocked = false;
       newHeroState.gameOptions.invulnerable = true;
       newHeroState.characteristics.damage = 0;
@@ -229,6 +230,66 @@ export default class Hero{
     }
     this.setState(newHeroState);
   };
+
+  autoplay(enemies) {
+    if (this.state.gameOptions.action !== 'die') {
+      if (this.currTarget) {
+        if (this.currTarget.clear || this.currTarget.state.characteristics.health < 0) this.currTarget = null;
+      }
+      if (enemies.length === 0) {
+        this.Move(1);
+      } else {
+        this.Stop(1);
+        this.Stop(-1);
+        this.getNewTarget(enemies);
+        if (this.currTarget) {
+          if (this.currTarget.state.positions.centerX > 
+          this.state.positions.centerX) this.state.animations.reversed = false;
+          else this.state.animations.reversed = true;
+          console.log(this.currTarget, this.state.animations.reversed);
+          if (Math.abs(this.currTarget.state.positions.centerX - this.state.positions.centerX) < 200) {
+            this.Attack();
+            this.StopAttack();
+          }
+          if (Math.abs(this.currTarget.state.positions.centerX - this.state.positions.centerX) < 50) {
+            this.Move(this.currTarget.state.speed.right > 0 ? 1 : -1);
+          }
+          if (this.state.positions.centerX 
+            - this.currTarget.state.positions.centerX > 150 ) {
+              this.Move(-1);
+          } else if (this.state.positions.centerX 
+            - this.currTarget.state.positions.centerX < -150 ) {
+              this.Move(1);
+          } else if (Math.abs(this.state.positions.centerY
+            - this.currTarget.state.positions.centerY) > 150) {
+              this.Jump();
+          } else if (Math.abs(this.state.positions.centerY
+            - this.currTarget.state.positions.centerY) < 50) {
+              this.Fall();
+          }
+        }
+      }
+    }
+  }
+
+  getNewTarget(enemies) {
+    let filterEnemies = enemies.filter((el) => {
+      return ((el.state.positions.centerX > 200 && el.state.positions.centerX < 900) && (
+        Math.abs(el.state.positions.centerY - this.state.positions.centerY) < 200))
+    });
+    if (filterEnemies.length > 0) {
+      enemies.sort((a, b) => {
+        return Math.abs(this.state.positions.centerX - a.state.positions.centerX) -
+        Math.abs(this.state.positions.centerX - b.state.positions.centerX);
+      });
+      this.currTarget = filterEnemies[0];
+    }
+    else if (this.state.positions.x < 0.45) {
+      this.Move(1);
+    } else if (this.state.positions.x > 0.55) {
+      this.Move(-1);
+    }
+  }
   
   Attack() {
     if (!this.state.gameOptions.blocked) {
