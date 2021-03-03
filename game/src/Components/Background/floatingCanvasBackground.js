@@ -105,7 +105,6 @@ export default class floatingCanvasBackground {
     this.particles.push(elem);
     setTimeout(() => {
       clearTimeout(elem.fader);
-      elem = null;
-    }, this.elLifetime);
+    }, this.elLifetime + 2000);
   }
 }
