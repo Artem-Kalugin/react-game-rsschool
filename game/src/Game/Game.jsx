@@ -389,7 +389,6 @@ function Game(props) {
       let options =
         localStorageWorker.read("options") ||
         localStorageWorker.generateOptions();
-      console.log(e.keyCode, options.menu);
       if (e.keyCode === options.menu) {
         history.push("/");
       }
