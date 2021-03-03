@@ -234,6 +234,8 @@ export default class Hero{
 
   autoplay(enemies) {
     if (this.state.gameOptions.action !== 'die') {
+      this.Stop(1);
+      this.Stop(-1);
       if (this.currTarget) {
         if (this.currTarget.clear || this.currTarget.state.characteristics.health < 1) {
           this.currTarget = null;
@@ -243,14 +245,11 @@ export default class Hero{
       if (enemies.length === 0) {
         this.Move(1);
       } else {
-        this.Stop(1);
-        this.Stop(-1);
         this.getNewTarget(enemies);
         if (this.currTarget) {
           if (this.currTarget.state.positions.centerX > 
           this.state.positions.centerX) this.state.animations.reversed = false;
           else this.state.animations.reversed = true;
-          console.log(this.currTarget, this.state.animations.reversed);
           if (Math.abs(this.currTarget.state.positions.centerX - this.state.positions.centerX) < 200) {
             this.Attack();
             this.StopAttack();
