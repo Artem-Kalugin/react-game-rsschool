@@ -235,7 +235,10 @@ export default class Hero{
   autoplay(enemies) {
     if (this.state.gameOptions.action !== 'die') {
       if (this.currTarget) {
-        if (this.currTarget.clear || this.currTarget.state.characteristics.health < 0) this.currTarget = null;
+        if (this.currTarget.clear || this.currTarget.state.characteristics.health < 1) {
+          this.currTarget = null;
+          this.getNewTarget(enemies);
+        }
       }
       if (enemies.length === 0) {
         this.Move(1);

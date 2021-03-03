@@ -38,7 +38,7 @@ export default class floatingCanvasBackground {
     this.particles.forEach((el) => {
       el.draw();
     });
-    setTimeout(() => {
+    this.drawTimeout = this.drawTimeout = setTimeout(() => {
       requestAnimationFrame(this.drawParticles.bind(this));
     }, this.frameLength);
   }
@@ -48,13 +48,17 @@ export default class floatingCanvasBackground {
   }
 
   startGeneration() {
-    setTimeout(() => {
+    this.generationTimeout = setTimeout(() => {
       this.randomizeElProp();
       this.createParticle();
       this.startGeneration();
     }, this.generationRate);
   }
-
+ 
+  clearTimeout() {
+    clearTimeout(this.generationTimeout);
+    clearTimeout(this.drawTimeout);
+  }
   createParticle() {
     let elem = {
       size: this.elSize,
@@ -80,7 +84,7 @@ export default class floatingCanvasBackground {
       },
       fade() {
         this.opacity -= this.opacityStep;
-        setTimeout(() => {
+        this.fader = setTimeout(() => {
           this.fade();
         }, this.frameLength);
       },
@@ -100,6 +104,7 @@ export default class floatingCanvasBackground {
     elem.spawn();
     this.particles.push(elem);
     setTimeout(() => {
+      clearTimeout(elem.fader);
       elem = null;
     }, this.elLifetime);
   }

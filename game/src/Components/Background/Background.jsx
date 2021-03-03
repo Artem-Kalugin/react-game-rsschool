@@ -8,6 +8,9 @@ function Background() {
   useEffect(() => {
     const background = new floatingCanvasBackgound(canvas.current, 1.5);
     background.drawParticles();
+    return function cleanup() {
+      background.clearTimeout();
+    };
   }, []);
 
   return (
